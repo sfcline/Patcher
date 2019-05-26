@@ -1,0 +1,9 @@
+The second week I decided I would setup the C++ updater to launch the dll, test the updater with the launcher, and adjust the readme. After spending about five hours I have not found a convenient and adaptable way to launch the forms part of the C# dll. I will be adjusting my schedule to create a C# application that can launch my dll, which may give me less time for troubleshooting later.
+
+What I have discovered:
+
+Forms applications load using clr and load differently.
+Although I can reference the dll and call the function, an error comes back with SetCompatibleTextRenderingDefault not set.
+I have made sure Application::SetCompatibleTextRenderingDefault(false); was on both sides and before the call.
+I tried a few other methods as well revolving around loading the dll from assembly, which I could not get to work at all.
+I also tried referencing the function through CLR itself, but I could not find enough documentation on this to invoke the function.
