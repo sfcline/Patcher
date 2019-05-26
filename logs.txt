@@ -1,4 +1,7 @@
-The second week I decided I would setup the C++ updater to launch the dll, test the updater with the launcher, and adjust the readme. After spending about five hours I have not found a convenient and adaptable way to launch the forms part of the C# dll. I will be adjusting my schedule to create a C# application that can launch my dll, which may give me less time for troubleshooting later.
+The second week I decided I would setup the C++ updater to launch the dll, test the updater with the launcher, and adjust the readme. 
+After spending about five hours I have not found a convenient and adaptable way to launch the forms part of the C# dll. 
+I assumed this would not take much time, but I was wrong. I will be adjusting my schedule this coming week and creating a C# application
+that can launch my dll, which may give me less time for troubleshooting later.
 
 What I have discovered:
 
