@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace PatchDLL
 {
-    static class Program
+    public partial class loadDLL
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void DLLMain()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
