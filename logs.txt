@@ -1,0 +1,24 @@
+The second week I decided I would setup the C++ updater to launch the dll, test the updater with the launcher, and adjust the readme. 
+After spending about five hours I have not found a convenient and adaptable way to launch the forms part of the C# dll. 
+I assumed this would not take much time, but I was wrong. I will be adjusting my schedule this coming week and creating a C# application
+that can launch my dll, which may give me less time for troubleshooting later.
+
+What I have discovered:
+
+Forms applications load using clr and load differently.
+Although I can reference the dll and call the function, an error comes back with SetCompatibleTextRenderingDefault not set.
+I have made sure Application::SetCompatibleTextRenderingDefault(false); was on both sides and before the call.
+I tried a few other methods as well revolving around loading the dll from assembly, which I could not get to work at all.
+I also tried referencing the function through CLR itself, but I could not find enough documentation on this to invoke the function.
+
+The third week I will design the gui and setup the executable to launch the dll in C#. After the GUI is setup I plan on showing an example
+in the readme. 
+
+
+
+Future tasks to be adjusted as needed:
+
+The fourth week I will start setting up the logic for patching and test as needed.
+The fifth week I will finish the logic for patching and start working on gui functionality.
+The final week I will finish working on gui functionality, and I will also test and revise as needed for bugs. 
+I will most likely have others test for bugs that I do not find. 
