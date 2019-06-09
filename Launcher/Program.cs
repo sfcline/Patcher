@@ -22,7 +22,7 @@ namespace Launcher
 
             // Loads DLL and opens Windows Forms Application from DLL
             Assembly assembly = Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\PatchDLL.dll");
-            Type type = assembly.GetType("WindowsFormsApp1.Form1");
+            Type type = assembly.GetType("PatchDLL.Form1");
             Form form = (Form)Activator.CreateInstance(type);
             Application.Run(form);
         }
