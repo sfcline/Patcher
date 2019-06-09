@@ -21,12 +21,22 @@ How to unzip files in C#
 How to make a proper readme, although mine will need to be updated as the project progresses
 How to merge another solution into a  git repo
 
+The fourth week I designed the gui and added some functionality to it. I spent some time looking at different applications and patchers
+to get an idea of what to do with mine. Since most use a custom GUI without the standard windows control bar, I decided to take the same
+approach. First I added an event to start the program using the Start button to get familiar with how events work in C#. I also had to
+add my own control bar and add an event to allow users to move the window with it. This required importing functions from user32.dll.
+Afterwards I went back and added Environment.Exit(0) to the start button event so that the patcher closes after launching the program.
+I also updated the readme with a picture of the GUI.
+
+What I learned this week:
+How to make a decent looking user friendly GUI in C#
+How to create and assign events in C#
+How to execute a new program with parameters using C# (System.Diagnostics.Process.Start())
+How to move a window using functions from a system dll (ReleaseCapture() and SendMessage()) in combination with the mouse events
+How to call the exit function in C#
 
 
 Future tasks to be adjusted as needed:
-
-The fourth week I will design the gui and start setting up the logic for patching and test as needed. After the GUI is setup I plan on showing an example
-in the readme. 
 The fifth week I will finish the logic for patching and start working on gui functionality.
 The final week I will finish working on gui functionality, and I will also test and revise as needed for bugs. 
 I will most likely have others test for bugs that I do not find. 
