@@ -26,7 +26,6 @@ to get an idea of what to do with mine. Since most use a custom GUI without the 
 approach. First I added an event to start the program using the Start button to get familiar with how events work in C#. I also had to
 add my own control bar and add an event to allow users to move the window with it. This required importing functions from user32.dll.
 Afterwards I went back and added Environment.Exit(0) to the start button event so that the patcher closes after launching the program.
-I also updated the readme with a picture of the GUI.
 
 What I learned this week:
 How to make a decent looking user friendly GUI in C#
