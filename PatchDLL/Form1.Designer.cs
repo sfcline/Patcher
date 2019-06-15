@@ -108,7 +108,7 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(706, 336);
             this.webBrowser1.TabIndex = 5;
-            this.webBrowser1.Url = new System.Uri("http://cdn.mabiclassic.com/patch/News.html", System.UriKind.Absolute);
+            this.webBrowser1.Url = new System.Uri("https://sites.google.com/view/test-updates/home", System.UriKind.Absolute);
             // 
             // progressBar1
             // 
@@ -127,7 +127,7 @@
             this.textBox1.Location = new System.Drawing.Point(12, 381);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(573, 34);
+            this.textBox1.Size = new System.Drawing.Size(573, 23);
             this.textBox1.TabIndex = 7;
             this.textBox1.TabStop = false;
             this.textBox1.Text = "Updating...";

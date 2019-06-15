@@ -10,6 +10,9 @@ namespace PatchDLL
 {
     public partial class Form1 : Form
     {
+        int mainVer = 125;
+        int mainVerClient = 125;
+
         public Form1()
         {
             InitializeComponent();
@@ -19,11 +22,51 @@ namespace PatchDLL
         private void Form1_Load(object sender, EventArgs e)
         {
             // Defining variables
+            string html = string.Empty;
+            String url = "http://cdn.mabiclassic.com/patch/patch.txt";
+            StreamReader mabiver = new StreamReader("mabiver.ini");
+            mainVerClient = int.Parse(mabiver.ReadLine());
+            mabiver.Close();
 
             // Grab patch.txt and assign values
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                while (reader.Peek() >= 0)
+                {
+                    html = reader.ReadLine();
+                    if (html[0] == 'm' && html[1] == 'a' && html[2] == 'i' && html[3] == 'n' && html[4] == '_' && html[5] == 'v')
+                        mainVer = int.Parse(html.Remove(0, 13));
+                }
+            }
 
-            // Call function to start downloading files if not up to date
-            
+            // Download Files
+            if (mainVerClient < mainVer)
+            {
+                textBox1.Text = "Updating " + Convert.ToString(mainVerClient) + " to " + Convert.ToString(mainVerClient + 1);
+                try
+                {
+                    using (var newPatch = new WebClient())
+                    {
+                        newPatch.DownloadFileCompleted += wc_DownloadCompleted;
+                        newPatch.DownloadProgressChanged += wc_DownloadProgressChanged;
+                        newPatch.DownloadFileAsync(new Uri("http://cdn.mabiclassic.com/patch/" + System.Convert.ToString(mainVerClient) + "_to_" + System.Convert.ToString(mainVerClient + 1) + ".zip"), "tmp.zip");
+                    }
+                    mainVerClient++;
+                    File.WriteAllText(@".\mabiver.ini", System.Convert.ToString(mainVerClient));
+                }
+                catch (WebException)
+                {
+                    textBox1.Text = "Download Error";
+                }
+            }
+            else
+            {
+                textBox1.Text = "Up to date!";
+                button1.Enabled = true;
+            }
         }
 
         // Load DLL functions for controling window
@@ -47,6 +90,7 @@ namespace PatchDLL
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // TODO: Check if client.exe exists before executing
             System.Diagnostics.Process.Start("Client.exe", " code:1622 ver:126 logip:142.44.223.136 logport:11000 chatip:142.44.223.136 chatport:8002 setting:\"file://data/features.xml=Regular, USA\"");
             Environment.Exit(0);
         }
@@ -54,16 +98,83 @@ namespace PatchDLL
         private void timer1_Tick(object sender, EventArgs e)
         {
         }
-        
-        // Majority of patching will be done here and RunWorkerCompleted
+
+
+        void wc_DownloadCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            // Extract patch now that download is complete
+            backgroundWorker1.RunWorkerAsync();
+        }
+
+        // Updates the progress bar when downloading
+        void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        // Majority of patching done here and RunWorkerCompleted
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Download new patch
+            // Extract new patch
+            using (ZipArchive archive = ZipFile.Open(@".\tmp.zip", ZipArchiveMode.Update))
+            {
+                archive.ExtractToDirectory(@".\", true);
+            }
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            // Extract new patch
+            // Continue downloading patches as needed
+            if (mainVerClient < mainVer)
+            {
+                if (mainVerClient + 1 != mainVer)
+                    textBox1.Text = "Updating " + Convert.ToString(mainVerClient + 1) + " to " + Convert.ToString(mainVerClient + 2);
+                try
+                {
+                    using (var newPatch = new WebClient())
+                    {
+                        newPatch.DownloadFileCompleted += wc_DownloadCompleted;
+                        newPatch.DownloadProgressChanged += wc_DownloadProgressChanged;
+                        newPatch.DownloadFileAsync(new Uri("http://cdn.mabiclassic.com/patch/" + System.Convert.ToString(mainVerClient) + "_to_" + System.Convert.ToString(mainVerClient + 1) + ".zip"), "tmp.zip");
+                    }
+                    mainVerClient++;
+                    File.WriteAllText(@".\mabiver.ini", System.Convert.ToString(mainVerClient));
+                }
+                catch (WebException)
+                {
+                    textBox1.Text = "Download Error";
+                }
+            }
+            else
+            {
+                textBox1.Text = "Up to date!";
+                button1.Enabled = true;
+            }
+        }
+    }
+
+    // Inherit ExtractToDirectory from ZipArchiveExtensions 
+    public static class ZipArchiveExtensions
+    {
+        // This function overwrites files in the directory when setting the bool argument to true
+        public static void ExtractToDirectory(this ZipArchive archive, string destinationDirectoryName, bool overwrite)
+        {
+            if (!overwrite)
+            {
+                archive.ExtractToDirectory(destinationDirectoryName);
+                return;
+            }
+            foreach (ZipArchiveEntry file in archive.Entries)
+            {
+                string completeFileName = Path.Combine(destinationDirectoryName, file.FullName);
+                string directory = Path.GetDirectoryName(completeFileName);
+
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+                if (file.Name != "")
+                    file.ExtractToFile(completeFileName, true);
+            }
         }
     }
 }
