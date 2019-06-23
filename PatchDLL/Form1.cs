@@ -10,7 +10,28 @@ namespace PatchDLL
 {
     public partial class Form1 : Form
     {
+        // The URL for patching
+        // By default patches are read in the format VERSION_to_VERSION+1.zip
+        // Example: http://cdn.mabiclassic.com/patch/154_to_155.zip
+        const string patchURL = "http://cdn.mabiclassic.com/patch/";
+
+        // The URL holding patch information
+        const string patchInfoURL = "http://cdn.mabiclassic.com/patch/patch.txt";
+
+        // The file name that the local client version is stored in
+        // By default this file is stored in the same directory
+        const string clientVerFile = "mabiver.ini";
+
+        // Holds the arguments for launching client.exe
+        const string launchArgs = " code:1622 ver:126 logip:142.44.223.136 logport:11000 chatip:142.44.223.136 chatport:8002 setting:\"file://data/features.xml=Regular, USA\"";
+
+        // Argument to look for when checking remote client version
+        const string patchInfoArg = "main_version";
+
+        // Default server version
         int mainVer = 125;
+
+        // Default client version
         int mainVerClient = 125;
 
         public Form1()
@@ -23,13 +44,12 @@ namespace PatchDLL
         {
             // Defining variables
             string html = string.Empty;
-            String url = "http://cdn.mabiclassic.com/patch/patch.txt";
-            StreamReader mabiver = new StreamReader("mabiver.ini");
+            StreamReader mabiver = new StreamReader(clientVerFile);
             mainVerClient = int.Parse(mabiver.ReadLine());
             mabiver.Close();
 
             // Grab patch.txt and assign values
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(patchInfoURL);
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             using (Stream stream = response.GetResponseStream())
             using (StreamReader reader = new StreamReader(stream))
@@ -52,10 +72,10 @@ namespace PatchDLL
                     {
                         newPatch.DownloadFileCompleted += wc_DownloadCompleted;
                         newPatch.DownloadProgressChanged += wc_DownloadProgressChanged;
-                        newPatch.DownloadFileAsync(new Uri("http://cdn.mabiclassic.com/patch/" + System.Convert.ToString(mainVerClient) + "_to_" + System.Convert.ToString(mainVerClient + 1) + ".zip"), "tmp.zip");
+                        newPatch.DownloadFileAsync(new Uri(patchURL + System.Convert.ToString(mainVerClient) + "_to_" + System.Convert.ToString(mainVerClient + 1) + ".zip"), "tmp.zip");
                     }
                     mainVerClient++;
-                    File.WriteAllText(@".\mabiver.ini", System.Convert.ToString(mainVerClient));
+                    File.WriteAllText(@".\" + clientVerFile, System.Convert.ToString(mainVerClient));
                 }
                 catch (WebException)
                 {
@@ -91,7 +111,7 @@ namespace PatchDLL
         private void button1_Click(object sender, EventArgs e)
         {
             // TODO: Check if client.exe exists before executing
-            System.Diagnostics.Process.Start("Client.exe", " code:1622 ver:126 logip:142.44.223.136 logport:11000 chatip:142.44.223.136 chatport:8002 setting:\"file://data/features.xml=Regular, USA\"");
+            System.Diagnostics.Process.Start("Client.exe", launchArgs);
             Environment.Exit(0);
         }
 
@@ -120,6 +140,7 @@ namespace PatchDLL
             {
                 archive.ExtractToDirectory(@".\", true);
             }
+            File.Delete(@".\tmp.zip");
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -135,10 +156,10 @@ namespace PatchDLL
                     {
                         newPatch.DownloadFileCompleted += wc_DownloadCompleted;
                         newPatch.DownloadProgressChanged += wc_DownloadProgressChanged;
-                        newPatch.DownloadFileAsync(new Uri("http://cdn.mabiclassic.com/patch/" + System.Convert.ToString(mainVerClient) + "_to_" + System.Convert.ToString(mainVerClient + 1) + ".zip"), "tmp.zip");
+                        newPatch.DownloadFileAsync(new Uri(patchURL + System.Convert.ToString(mainVerClient) + "_to_" + System.Convert.ToString(mainVerClient + 1) + ".zip"), "tmp.zip");
                     }
                     mainVerClient++;
-                    File.WriteAllText(@".\mabiver.ini", System.Convert.ToString(mainVerClient));
+                    File.WriteAllText(@".\" + clientVerFile, System.Convert.ToString(mainVerClient));
                 }
                 catch (WebException)
                 {
