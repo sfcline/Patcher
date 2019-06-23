@@ -35,7 +35,18 @@ How to move a window using functions from a system dll (ReleaseCapture() and Sen
 How to call the exit function in C#
 
 
+The fifth week I will finished the logic for patching and the gui is now fully functional. Using what I learned from the launcher,
+downloading and unzipping patches was much easier. However, getting everything to work with the GUI was another task. I first tried
+threading, which did not work well. Instead I found that the built in background workers work better with the GUI. I also had
+to make an event for updating the progress bar while downloading and download asynchronously. To unzip and overwrite files I had to
+inherit ZipArchiveExtensions. From there I overloaded ExtractToDirectory to accept bool arguments. When true the function overwrites
+files if they are already in the directory.
+
+What I learned this week:
+How to use background workers to update the GUI properly.
+How to update the progress bar in the GUI
+How to inherit classes in C#
+
 Future tasks to be adjusted as needed:
-The fifth week I will finish the logic for patching and start working on gui functionality.
-The final week I will finish working on gui functionality, and I will also test and revise as needed for bugs. 
+The final week I will test and revise as needed for bugs. 
 I will most likely have others test for bugs that I do not find. 
