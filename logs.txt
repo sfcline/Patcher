@@ -11,6 +11,7 @@ I have made sure Application::SetCompatibleTextRenderingDefault(false); was on b
 I tried a few other methods as well revolving around loading the dll from assembly, which I could not get to work at all.
 I also tried referencing the function through CLR itself, but I could not find enough documentation on this to invoke the function.
 
+
 The third week I setup the executable to download, unzip, and launch the dll in C#. I also looked into some readme examples and
 setup the readme.
 
@@ -20,6 +21,7 @@ How to download files in C#
 How to unzip files in C#
 How to make a proper readme, although mine will need to be updated as the project progresses
 How to merge another solution into a  git repo
+
 
 The fourth week I designed the gui and added some functionality to it. I spent some time looking at different applications and patchers
 to get an idea of what to do with mine. Since most use a custom GUI without the standard windows control bar, I decided to take the same
@@ -47,6 +49,12 @@ How to use background workers to update the GUI properly.
 How to update the progress bar in the GUI
 How to inherit classes in C#
 
-Future tasks to be adjusted as needed:
-The final week I will test and revise as needed for bugs. 
-I will most likely have others test for bugs that I do not find. 
+
+The sixth week I tested for bugs and added private const strings for easily adjusting values needed to customize the patcher. I
+also added comments for each variable for simplicity when setting up for other servers. I also updated the readme to a more
+presentable format and uploaded a gif to replace the png. 
+
+The a few of the bugs I found were:
+The launcher was not updating it's own version file after updating.
+The launcher was not overwriting files when patching the DLL, so it was not updating at all.
+The patcher was not removing tmp.zip after extracting.
