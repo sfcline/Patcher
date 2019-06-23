@@ -1,13 +1,13 @@
 # Patcher
 
-A self-updating patcher for Mabinogi that can be easily setup for any server. The patcher functions by launching
+A self-updating patcher for Mabinogi that can be easily set up for any server. The patcher functions by launching
 as an executable and checking for update to the dynamic link library (DLL). After the patcher is up to date it 
 will load the DLL. The DLL holds both the GUI and patching functions for updating the client. A DLL is used
 instead of an additional executable to prevent confusion as to which executable to run.
 
 ![Program](https://github.com/sfcline/Patcher/blob/master/patcher.gif?raw=true)
 
-Features:
+## Features
 * Open Source
 * Easy to setup for any server
 * Written in C#
