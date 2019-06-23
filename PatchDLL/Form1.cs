@@ -57,7 +57,7 @@ namespace PatchDLL
                 while (reader.Peek() >= 0)
                 {
                     html = reader.ReadLine();
-                    if (html[0] == 'm' && html[1] == 'a' && html[2] == 'i' && html[3] == 'n' && html[4] == '_' && html[5] == 'v')
+                    if (html[0] == patchInfoArg[0] && html[1] == patchInfoArg[1] && html[2] == patchInfoArg[2] && html[3] == patchInfoArg[3] && html[4] == patchInfoArg[4] && html[5] == patchInfoArg[5])
                         mainVer = int.Parse(html.Remove(0, 13));
                 }
             }
